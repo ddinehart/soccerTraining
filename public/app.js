@@ -1,12 +1,12 @@
 var getSevenMinuteDrillsFromServer = function () {
-  return fetch("http://localhost:3001/sevenMinuteDrills");
+  return fetch("https://fast-citadel-67412.herokuapp.com/sevenMinuteDrills");
 };
 
 var createSevenMinuteDrillOnServer = function (newSevenMinuteDrillTime) {
   var data = `time=${encodeURIComponent(newSevenMinuteDrillTime)}`;
   console.log("data seven min drill", newSevenMinuteDrillTime)
   
-  return fetch("http://localhost:3001/sevenMinuteDrills", {
+  return fetch("https://fast-citadel-67412.herokuapp.com/sevenMinuteDrills", {
     body: data,
     method: "POST",
     headers: {
@@ -20,7 +20,7 @@ var updateSevenMinuteDrillOnServer = function (id, time) {
   console.log("data seven min drill", id, time)
   console.log("dataaaaaaaaaaaaaa", data)
 
-  return fetch("http://localhost:3001/sevenMinuteDrills/" + id, {
+  return fetch("https://fast-citadel-67412.herokuapp.com/sevenMinuteDrills/" + id, {
     method: "PUT",
     body: data,
     headers: {
@@ -34,13 +34,13 @@ var deleteSevenMinuteDrillOnServer = function (sevenMinuteDrillId) {
   // var data = `sevenMinuteDrillId=${encodeURIComponent(sevenMinuteDrillId)}`;
   console.log("data seven min drill", sevenMinuteDrillId)
 
-  return fetch("http://localhost:3001/sevenMinuteDrills/" + sevenMinuteDrillId, {
+  return fetch("https://fast-citadel-67412.herokuapp.com/sevenMinuteDrills/" + sevenMinuteDrillId, {
     method: "DELETE"
   });
 };
 
 var getTechnicalSkillsFromServer = function () {
-  return fetch("http://localhost:3001/technicalSkills");
+  return fetch("https://fast-citadel-67412.herokuapp.com/technicalSkills");
 };
 
 var createTechnicalSkillOnServer = function (newTechnicalSkillShooting, newTechnicalSkillPassing, newTechnicalSkillDribbling, newTechnicalSkillTurning, newTechnicalSkillReceiving, newTechnicalSkillAerial, newTechnicalSkillAttacking) {
@@ -53,7 +53,7 @@ var createTechnicalSkillOnServer = function (newTechnicalSkillShooting, newTechn
   data += "&attacking=" + encodeURIComponent(newTechnicalSkillAttacking);
 
 
-  return fetch("http://localhost:3001/technicalSkills", {
+  return fetch("https://fast-citadel-67412.herokuapp.com/technicalSkills", {
     body: data,
     method: "POST",
     headers: {
@@ -67,7 +67,7 @@ var deleteTechnicalSkillOnServer = function (technicalSkillId) {
   // var data = `sevenMinuteDrillId=${encodeURIComponent(sevenMinuteDrillId)}`;
   console.log("data seven min drill", technicalSkillId)
 
-  return fetch("http://localhost:3001/technicalSkills/" + technicalSkillId, {
+  return fetch("https://fast-citadel-67412.herokuapp.com/technicalSkills/" + technicalSkillId, {
     method: "DELETE"
   });
 };
@@ -82,7 +82,7 @@ var updateTechnicalSkillOnServer = function (id, shooting, passing, dribbling, t
   data += "&attacking=" + encodeURIComponent(attacking);
   console.log("dataaaaaaaaaaaaaa", data)
 
-  return fetch("http://localhost:3001/technicalSkills/" + id, {
+  return fetch("https://fast-citadel-67412.herokuapp.com/technicalSkills/" + id, {
     method: "PUT",
     body: data,
     headers: {
