@@ -134,14 +134,18 @@ var app = new Vue({
       }
     },
     saveSevenMinuteDrill: function () {
+      this.showSevenMinuteDrillForm = false;
+      this.showTableDisplay = true;
+      this.showSevenMinuteDrills();
       // perform client validation before sending request
       if (this.validateSevenMinuteDrill()) {
         createSevenMinuteDrillOnServer(this.newSevenMinuteDrillTime).then((response) => {
           if (response.status == 201) {
-            this.showSevenMinuteDrills();
+            console.log("made it")
             this.showCreatePhysicalForm = false;
             this.showCreateTechnicalForm = false;
             this.newSevenMinuteDrillTime = "";
+            this.showSevenMinuteDrillForm = false;
             // this.newSevenMinuteDrillRating = "";
           } else if (response.status == 422) {
             // server validation error
