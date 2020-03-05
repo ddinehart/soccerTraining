@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Soccer</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="top">
+        <h1>Soccer Training</h1>
+      </div>
+      
+      <div v-if="showSevenMinuteDrillForm">
+        <div class="form">
+
+          <label class="label">Seven Minute Drills:</label>
+          <input type="text" v-model="newSevenMinuteDrillTime"><br>
+          <button v-on:click="saveSevenMinuteDrill">Submit Seven Minute Drill Time</button>
+          <br>
+          <br>
+        </div>
+        <div id="errors" v-if="errors.length">
+          There were errors trying to save this drill time:
+          <ul>
+            <li v-for="error in errors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+        
+      </div>
+
+      <div v-if="showEditSevenMinuteDrillForm">
+        <div class="form">
+          <label class="label"> Edit Seven Minute Drills Time:</label>
+          <input type="text" v-model="newSevenMinuteDrillTime"><br>
+          <button v-on:click="updateSevenMinuteDrill( newSevenMinuteDrillTime)">Update Seven Minute Drill Time</button>
+          <br>
+          <br>
+        </div>
+        <div id="errors" v-if="errors.length">
+          There were errors trying to save this drill time:
+          <ul>
+            <li v-for="error in errors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+        
+      </div>
+      <div v-if="showEditTechnicalSkillForm">
+        <div class="form">
+          <label class="label">Shooting:</label>
+          <input type="text" v-model="newTechnicalSkillShooting"><br>
+          <label class="label">Passing:</label>
+          <input type="text" v-model="newTechnicalSkillPassing"><br>
+          <label class="label">Dribbling:</label>
+          <input type="text" v-model="newTechnicalSkillDribbling"><br>
+          <label class="label">Turning:</label>
+          <input type="text" v-model="newTechnicalSkillTurning"><br>
+          <label class="label">Receiving:</label>
+          <input type="text" v-model="newTechnicalSkillReceiving"><br>
+          <label class="label">Aerial:</label>
+          <input type="text" v-model="newTechnicalSkillAerial"><br>
+          <label class="label">Attacking:</label>
+          <input type="text" v-model="newTechnicalSkillAttacking"><br>
+          <button v-on:click="updateTechnicalSkill( newTechnicalSkillShooting, newTechnicalSkillPassing, newTechnicalSkillDribbling, newTechnicalSkillTurning, newTechnicalSkillReceiving, newTechnicalSkillAerial, newTechnicalSkillAttacking)">Update Technical Skill </button>
+          <br>
+
+        </div>
+        <div id="errors" v-if="errors.length">
+          There were errors trying to save this drill time:
+          <ul>
+            <li v-for="error in errors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+        
+      </div>
+
+
+      <button class="btnAdd" v-else v-on:click="addSevenMinuteDrill">Add a Seven Minute Drill</button>
+      
+
+
+      <div v-if="showCreateTechnicalForm">
+        <div class="form">
+          <label class="label">Shooting:</label>
+          <input type="text" v-model="newTechnicalSkillShooting"><br>
+          <label class="label">Passing:</label>
+          <input type="text" v-model="newTechnicalSkillPassing"><br>
+          <label class="label">Dribbling:</label>
+          <input type="text" v-model="newTechnicalSkillDribbling"><br>
+          <label class="label">Turning:</label>
+          <input type="text" v-model="newTechnicalSkillTurning"><br>
+          <label class="label">Receiving:</label>
+          <input type="text" v-model="newTechnicalSkillReceiving"><br>
+          <label class="label">Aerial:</label>
+          <input type="text" v-model="newTechnicalSkillAerial"><br>
+          <label class="label">Attacking:</label>
+          <input type="text" v-model="newTechnicalSkillAttacking"><br>
+          <button class="btnAdd" v-on:click="saveTechnicalSkill">Submit Technical Skills</button>
+          <br>
+
+        </div>
+        <br>
+        <div id="errors" v-if="errors.length">
+          There were errors trying to save this skill:
+          <ul>
+            <li v-for="error in errors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+        
+      </div>
+      <button class="btnAdd" v-else v-on:click="addTechnicalSkill">Add a Technical Skill</button >
+        <div v-if="showTableDisplay" class="tableDisplay">
+          Technical Skills  
+          <table>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Shooting</th>
+              <th>Passing</th>
+              <th>Dribbling</th>
+              <th>Turning</th>
+              <th>Receiving</th>
+              <th>Aerial</th>
+              <th>Attacking</th>
+            </tr>
+            <tr v-for="skill in technicalSkills">
+              <th class="buttonColumn"><button class="btnDelete" v-on:click="deleteTechnicalSkill(skill._id)">Delete</button> </th>
+              <th class="buttonColumn"><button v-on:click="editTechnicalSkill(skill.id, skill.shooting, skill.passing, skill.dribbling, skill.turning, skill.receiving, skill.aerial, skill.attacking)" class="btnEdit">Edit</button></th>
+              <th> {{ skill.shooting }}</th>
+              <th> {{ skill.passing }}</th>
+              <th> {{ skill.dribbling }}</th>
+              <th> {{ skill.turning }}</th>
+              <th> {{ skill.receiving }}</th>
+              <th> {{ skill.aerial }}</th>
+              <th> {{ skill.attacking }}</th>
+            </tr>
+          </table>
+
+        </div>
+        <!-- <div id="errors" v-else> -->
+          <div v-if="showTableDisplay" class="tableDisplay">
+            Seven Minute Drills. 
+            <table>
+              <tr>
+                <th></th>
+                <th></th>
+                <th>Time (Do your best to keep this below 7 minutes)</th>
+              </tr>
+              <tr v-for="drill in sevenMinuteDrills">
+                <th class="buttonColumn"><button class="btnDelete" v-on:click="deleteSevenMinuteDrill(drill._id)">Delete</button></th>
+                <th class="buttonColumn"><button v-on:click="editSevenMinuteDrill(drill._id, drill.time)" class="btnEdit">Edit</button></th>
+                <th>{{ drill.time }}</th>
+              </li>
+            </table>
+          </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

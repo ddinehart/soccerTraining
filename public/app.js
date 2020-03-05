@@ -1,0 +1,370 @@
+var getSevenMinuteDrillsFromServer = function () {
+  return fetch("http://localhost:3001/sevenMinuteDrills");
+};
+
+var createSevenMinuteDrillOnServer = function (newSevenMinuteDrillTime) {
+  var data = `time=${encodeURIComponent(newSevenMinuteDrillTime)}`;
+  console.log("data seven min drill", newSevenMinuteDrillTime)
+  
+  return fetch("http://localhost:3001/sevenMinuteDrills", {
+    body: data,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  });
+};
+
+var updateSevenMinuteDrillOnServer = function (id, time) {
+  var data = `time=${encodeURIComponent(time)}`;
+  console.log("data seven min drill", id, time)
+  console.log("dataaaaaaaaaaaaaa", data)
+
+  return fetch("http://localhost:3001/sevenMinuteDrills/" + id, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  });
+};
+
+var deleteSevenMinuteDrillOnServer = function (sevenMinuteDrillId) {
+  console.log("called Delete seven", sevenMinuteDrillId)
+  // var data = `sevenMinuteDrillId=${encodeURIComponent(sevenMinuteDrillId)}`;
+  console.log("data seven min drill", sevenMinuteDrillId)
+
+  return fetch("http://localhost:3001/sevenMinuteDrills/" + sevenMinuteDrillId, {
+    method: "DELETE"
+  });
+};
+
+var getTechnicalSkillsFromServer = function () {
+  return fetch("http://localhost:3001/technicalSkills");
+};
+
+var createTechnicalSkillOnServer = function (newTechnicalSkillShooting, newTechnicalSkillPassing, newTechnicalSkillDribbling, newTechnicalSkillTurning, newTechnicalSkillReceiving, newTechnicalSkillAerial, newTechnicalSkillAttacking) {
+  var data = `shooting=${encodeURIComponent(newTechnicalSkillShooting)}`;
+  data += "&passing=" + encodeURIComponent(newTechnicalSkillPassing);
+  data += "&dribbling=" + encodeURIComponent(newTechnicalSkillDribbling);
+  data += "&turning=" + encodeURIComponent(newTechnicalSkillTurning);
+  data += "&receiving=" + encodeURIComponent(newTechnicalSkillReceiving);
+  data += "&aerial=" + encodeURIComponent(newTechnicalSkillAerial);
+  data += "&attacking=" + encodeURIComponent(newTechnicalSkillAttacking);
+
+
+  return fetch("http://localhost:3001/technicalSkills", {
+    body: data,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  });
+};
+
+var deleteTechnicalSkillOnServer = function (technicalSkillId) {
+  console.log("called Delete seven", technicalSkillId)
+  // var data = `sevenMinuteDrillId=${encodeURIComponent(sevenMinuteDrillId)}`;
+  console.log("data seven min drill", technicalSkillId)
+
+  return fetch("http://localhost:3001/technicalSkills/" + technicalSkillId, {
+    method: "DELETE"
+  });
+};
+
+var updateTechnicalSkillOnServer = function (id, shooting, passing, dribbling, turning, receiving, aerial, attacking) {
+  var data = `shooting=${encodeURIComponent(shooting)}`; 
+  data += "&passing=" + encodeURIComponent(passing);
+  data += "&dribbling=" + encodeURIComponent(dribbling);
+  data += "&turning=" + encodeURIComponent(turning);
+  data += "&receiving=" + encodeURIComponent(receiving);
+  data += "&aerial=" + encodeURIComponent(aerial);
+  data += "&attacking=" + encodeURIComponent(attacking);
+  console.log("dataaaaaaaaaaaaaa", data)
+
+  return fetch("http://localhost:3001/technicalSkills/" + id, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+
+  });
+
+};
+
+
+var app = new Vue({
+  el: "#app",
+  data: {
+    sevenMinuteDrills: [],
+    technicalSkills: [],
+    newSevenMinuteDrillTime: "",
+    newTechnicalSkillShooting: "",
+    newTechnicalSkillPassing: "",
+    newTechnicalSkillDribbling: "",
+    newTechnicalSkillTurning: "",
+    newTechnicalSkillReceiving: "",
+    newTechnicalSkillAerial: "",
+    newTechnicalSkillAttacking: "",
+    editItemClickedId: "",
+
+    
+    showEditSevenMinuteDrillForm: false,
+    showEditTechnicalSkillForm: false,
+    showSevenMinuteDrillForm: false,
+    showCreateTechnicalForm: false,
+    showTableDisplay: true,
+
+    errors: []
+  },
+  methods: {
+    validateSevenMinuteDrill: function () {
+      this.errors = [];
+
+      if (this.newSevenMinuteDrillTime == "") {
+        this.errors.push("Please enter a seven title.");
+      }
+
+
+      if (this.errors.length > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    saveSevenMinuteDrill: function () {
+      // perform client validation before sending request
+      if (this.validateSevenMinuteDrill()) {
+        createSevenMinuteDrillOnServer(this.newSevenMinuteDrillTime).then((response) => {
+          if (response.status == 201) {
+            this.showSevenMinuteDrills();
+            this.showCreatePhysicalForm = false;
+            this.showCreateTechnicalForm = false;
+            this.newSevenMinuteDrillTime = "";
+            // this.newSevenMinuteDrillRating = "";
+          } else if (response.status == 422) {
+            // server validation error
+          } else {
+            // unexpected server error
+            alert("something terrible happened. oh no.");
+          }
+        });
+      }
+    },
+    editSevenMinuteDrill: function (id, time) {
+      console.log("update!!!!!!!!!!!!!!!!!!!!!!!!!!!", id, time)
+      this.showEditTechnicalSkillForm = false
+      this.showEditSevenMinuteDrillForm = true;
+      this.newSevenMinuteDrillTime = time;
+      this.editItemClickedId = id;
+      console.log("update", this.newSevenMinuteDrillTime)
+      
+      },
+      updateSevenMinuteDrill: function (time) {
+        console.log("Made it to update call", this.editItemClickedId, time)
+        // perform client validation before sending request
+        updateSevenMinuteDrillOnServer(this.editItemClickedId, time).then((response) => {
+            if (response.status == 200) {
+              this.showSevenMinuteDrills();
+              this.showCreatePhysicalForm = false;
+              this.showCreateTechnicalForm = false;
+              this.newSevenMinuteDrillTime = time;
+              this.showEditTechnicalSkillForm = false
+              // this.newSevenMinuteDrillRating = "";
+            } else if (response.status == 422) {
+              // server validation error
+            } else {
+              // unexpected server error
+              alert("something terrible happened. oh no.");
+            }
+          });
+      },
+    // },
+    
+    deleteSevenMinuteDrill: function (sevenMinuteDrillId) {
+      // perform client validation before sending request
+      deleteSevenMinuteDrillOnServer(sevenMinuteDrillId).then((response) => {
+          if (response.status == 200) {
+            this.showSevenMinuteDrills();
+            // this.showCreatePhysicalForm = false;
+            this.showCreateTechnicalForm = false;
+            this.newSevenMinuteDrillTime = "";
+            // this.newSevenMinuteDrillRating = "";
+          } else if (response.status == 422) {
+            // server validation error
+          } else {
+            // unexpected server error
+            alert("something terrible happened. oh no.");
+          }
+        });
+    },
+    
+    showSevenMinuteDrills: function () {
+      getSevenMinuteDrillsFromServer().then((response) => {
+        response.json().then((sevenMinuteDrills) => {
+          console.log("here be sevenMinuteDrills:", sevenMinuteDrills);
+          this.sevenMinuteDrills = sevenMinuteDrills;
+        });
+      });
+    },
+
+    validateTechnicalSkill: function () {
+      this.errors = [];
+
+      if (parseInt(this.newTechnicalSkillShooting, 10) < 1) {
+        this.errors.push("The minimum rating is 1.");
+      } else if (parseInt(this.newTechnicalSkillShooting, 10) > 10) {
+        this.errors.push("The maximum rating is 10.");
+      }
+
+      if (parseInt(this.newTechnicalSkillPassing, 10) < 1) {
+        this.errors.push("The minimum rating is 1.");
+      } else if (parseInt(this.newTechnicalSkillPassing, 10) > 10) {
+        this.errors.push("The maximum rating is 10.");
+      }
+      if (parseInt(this.newTechnicalSkillDribbling, 10) < 1) {
+        this.errors.push("The minimum rating is 1.");
+      } else if (parseInt(this.newTechnicalSkillDribbling, 10) > 10) {
+        this.errors.push("The maximum rating is 10.");
+      }
+      if (parseInt(this.newTechnicalSkillTurning, 10) < 1) {
+        this.errors.push("The minimum rating is 1.");
+      } else if (parseInt(this.newTechnicalSkillTurning, 10) > 10) {
+        this.errors.push("The maximum rating is 10.");
+      }
+      if (parseInt(this.newTechnicalSkillReceiving, 10) < 1) {
+        this.errors.push("The minimum rating is 1.");
+      } else if (parseInt(this.newTechnicalSkillReceiving, 10) > 10) {
+        this.errors.push("The maximum rating is 10.");
+      }
+      if (parseInt(this.newTechnicalSkillAerial, 10) < 1) {
+        this.errors.push("The minimum rating is 1.");
+      } else if (parseInt(this.newTechnicalSkillAerial, 10) > 10) {
+        this.errors.push("The maximum rating is 10.");
+      }
+      if (parseInt(this.newTechnicalSkillAttacking, 10) < 1) {
+        this.errors.push("The minimum rating is 1.");
+      } else if (parseInt(this.newTechnicalSkillAttacking, 10) > 10) {
+        this.errors.push("The maximum rating is 10.");
+      }
+
+      if (this.errors.length > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    saveTechnicalSkill: function () {
+
+      // perform client validation before sending request
+      if (this.validateTechnicalSkill()) {
+        createTechnicalSkillOnServer(this.newTechnicalSkillShooting, this.newTechnicalSkillPassing, this.newTechnicalSkillDribbling, this.newTechnicalSkillTurning, this.newTechnicalSkillReceiving, this.newTechnicalSkillAerial, this.newTechnicalSkillAttacking).then((response) => {
+          if (response.status == 201) {
+            this.showTechnicalSkills();
+            // this.showCreatePhysicalForm = false;
+            this.showCreateTechnicalForm = false;
+            this.newTechnicalSkillShooting = "";
+            this.newTechnicalSkillPassing = "";
+            this.newTechnicalSkillDribbling = "";
+            this.newTechnicalSkillTurning = "";
+            this.newTechnicalSkillReceiving = "";
+            this.newTechnicalSkillAerial = "";
+            this.newTechnicalSkillAttacking = "";
+            // this.newSevenMinuteDrillRating = "";
+  	} else if (response.status == 422) {
+            // server validation error
+          } else {
+            // unexpected server error
+            alert("something terrible happened. oh no.");
+          }
+        });
+      }
+    },
+    editTechnicalSkill: function (id, shooting, passing, dribbling, turning, receiving, aerial, attacking) {
+      console.log("edit!!!!!!!!!!!!!!!!!!!!!!!!!!!", id, shooting, passing, dribbling, turning, receiving, aerial, attacking)
+     
+      this.showEditTechnicalSkillForm = true
+      this.showEditSevenMinuteDrillForm = false;
+      this.newTechnicalSkillShooting = shooting;
+      this.newTechnicalSkillPassing = passing;
+      this.newTechnicalSkillDribbling = dribbling;
+      this.newTechnicalSkillTurning = turning;
+      this.newTechnicalSkillReceiving = receiving;
+      this.newTechnicalSkillAerial = aerial;
+      this.newTechnicalSkillAttacking = attacking;
+      this.editItemClickedId = id;
+      // console.log("update", this.newSevenMinuteDrillTime)
+      
+    },
+    updateTechnicalSkill: function (shooting, passing, dribbling, turning, receiving, aerial, attacking) {
+      console.log("Made it to update call", this.editItemClickedId)
+      // perform client validation before sending request
+      updateTechnicalSkillOnServer(this.editItemClickedId, shooting, passing, dribbling, turning, receiving, aerial, attacking).then((response) => {
+          if (response.status == 200) {
+            this.showTechnicalSkills();
+            this.showCreatePhysicalForm = false;
+            this.showCreateTechnicalForm = false;
+            this.newTechnicalSkillShooting = shooting;
+            this.newTechnicalSkillPassing = passing;
+            this.newTechnicalSkillDribbling = dribbling;
+            this.newTechnicalSkillTurning = turning;
+            this.newTechnicalSkillReceiving = receiving;
+            this.newTechnicalSkillAerial = aerial;
+            this.newTechnicalSkillAttacking = attacking;
+            // this.newSevenMinuteDrillRating = "";
+          } else if (response.status == 422) {
+            // server validation error
+          } else {
+            // unexpected server error
+            alert("something terrible happened. oh no.");
+          }
+        });
+    },
+    deleteTechnicalSkill: function (technicalSkillId) {
+      // perform client validation before sending request
+      deleteTechnicalSkillOnServer(technicalSkillId).then((response) => {
+          if (response.status == 200) {
+            this.showTechnicalSkills();
+            // this.showCreatePhysicalForm = false;
+            this.showCreateTechnicalForm = false;
+            this.newTechnicalSkillTime = "";
+            // this.newSevenMinuteDrillRating = "";
+          } else if (response.status == 422) {
+            // server validation error
+          } else {
+            // unexpected server error
+            alert("something terrible happened. oh no.");
+          }
+        });
+    },
+    showTechnicalSkills: function () {
+      this.showTableDisplay = true;
+
+      getTechnicalSkillsFromServer().then((response) => {
+        response.json().then((technicalSkills) => {
+          console.log("here be technicalSkills:", technicalSkills);
+          this.technicalSkills = technicalSkills;
+	      });
+      });
+    },
+    addSevenMinuteDrill: function () {
+      this.showCreateTechnicalForm = false;
+      // this.showCreatePhysicalForm = false;
+      this.showSevenMinuteDrillForm = true;
+      this.showTableDisplay = false;
+    },
+    addTechnicalSkill: function () {
+      this.showCreateTechnicalForm = true;
+      // this.showCreatePhysicalForm = false;
+      this.showTableDisplay = false;
+      this.showSevenMinuteDrillForm = false;
+    }
+  },
+  created: function () {
+    console.log("VUE LOADED.");
+    this.showSevenMinuteDrills();
+    this.showTechnicalSkills();
+  }
+});

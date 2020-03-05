@@ -1,0 +1,126 @@
+body {
+  margin: 10px;
+  font-family: sans-serif;
+  height: 100%;
+}
+
+.top {
+  height: 700px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  background-image: url("soccer.jpg");
+  background-position: left bottom;
+  background-size: cover;
+  padding: 0px;
+  margin: 0px;
+}
+
+table {
+  border-radius: 10px;
+  font-family: sans-serif;
+  border-collapse: collapse;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+td, th {
+  font-size: large;
+  color: black;
+  border: 1px solid rgb(36, 36, 36);
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #c6ffc4;
+}
+tr:nth-child(odd) {
+  background-color: #82d27f;
+}
+
+input {
+  width: 500px;
+  margin: 5px;
+  padding: 3px;
+
+}
+
+.label {
+  margin: 10px;
+  padding: 3px;
+}
+
+.btnDelete {
+  margin: 5px;
+  background-color: rgb(255, 0, 0);
+  color:black;
+  border-radius: 5px;
+  width: 90%;
+  height: 90%;
+  font-size: 12px;
+}
+.btnEdit {
+  font-size: 12px;
+  margin: 5px;
+  background-color: rgb(255, 238, 0);
+  color:black;
+  border-radius: 5px;
+  width: 90%;
+  height: 90%;
+}
+
+.btnAdd {
+  background-color:rgb(0, 166, 169);
+  border-radius: 5px;
+  font-size: 18px;
+  width: auto;
+  padding: 10px;
+  margin: 5px;
+  color: white;
+}
+.buttonColumn {
+  width: 100px;
+}
+.tableDisplay {
+  color: white;
+  text-align: center;
+  font-size: larger;
+  padding: 10px;
+  margin: 15px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 10px;
+  border-color: turquoise;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.form {
+  background-color: gray;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px;
+}
