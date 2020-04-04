@@ -432,9 +432,9 @@ var app = new Vue({
       loginUserOnServer(this.emailField, this.passwordField).then((res) => {
         if (res.status == 201) {
           console.log("success")
-          showSevenMinuteDrills();
-          showTechnicalSkills();
           this.loggedIn = true;
+          this.showSevenMinuteDrills();
+          this.showTechnicalSkills();
           this.showLoginForm = false;
           this.showTableDisplay = true;
           this.showTechnicalSkills = true;
@@ -449,12 +449,12 @@ var app = new Vue({
       signUpUserOnServer(this.emailField, this.passwordField).then((res) => {
         if (res.status == 201) {
           console.log("success")
-          showSevenMinuteDrills();
-          showTechnicalSkills();
           
           this.showTableDisplay = true;
           this.showTechnicalSkills = true;
           this.showSevenMinuteDrills = true;
+          this.showSevenMinuteDrills();
+          this.showTechnicalSkills();
         } else {
           alert("Sign in failed, email may already exist")
         }
