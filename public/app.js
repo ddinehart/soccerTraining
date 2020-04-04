@@ -428,6 +428,7 @@ var app = new Vue({
         if (res.status == 201) {
           console.log("success")
           this.loggedIn = true
+          this.showLoginForm = false
           this.showTechnicalSkills = true
           this.showSevenMinuteDrills = true
         } else {
@@ -444,7 +445,7 @@ var app = new Vue({
           this.showTechnicalSkills = true
           this.showSevenMinuteDrills = true
         } else {
-          alert("Login attempt failed please try again")
+          alert("Sign in failed, email may already exist")
         }
       })
     },
