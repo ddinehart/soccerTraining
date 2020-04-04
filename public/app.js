@@ -434,7 +434,6 @@ var app = new Vue({
           console.log("success")
           
           this.showLoginForm = false;
-          this.showSevenMinuteDrills = true;
           this.loggedIn = true;
           this.showTableDisplay = true;
           this.showSevenMinuteDrills();
@@ -453,8 +452,6 @@ var app = new Vue({
           console.log("success")
           
           this.showTableDisplay = true;
-          this.showTechnicalSkills = true;
-          this.showSevenMinuteDrills = true;
          
           
         } else {
