@@ -58,6 +58,13 @@ app.post('/session', passport.authenticate('local'), function(req, res) {
   res.sendStatus(201);
 });
 
+app.get('/session', function (req, res) {
+  if (req.user) {
+    res.json(req.user)
+  } else {
+    res.sendStatus(401)
+  }
+})
 
 app.get('/players', function (req, res) {
     res.set("Access-Control-Allow-Origin", "*")

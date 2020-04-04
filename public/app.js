@@ -32,6 +32,20 @@ var loginUserOnServer = function (email, plainPassword) {
   });
 };
 
+var deleteSessionOnServer = function () {
+  return fetch("https://fast-citadel-67412.herokuapp.com/session", {
+    method: "DELETE",
+    credentials: "include",
+  });
+}
+
+var checkIfLoggedInOnServer = function () {
+  return fetch("https://fast-citadel-67412.herokuapp.com/session", {
+      method: "GET",
+      credentials: "include"
+  })
+}
+
 var signUpUserOnServer = function (email, plainPassword) {
   var data = `email=${encodeURIComponent(email)}`;
   data += "&plainPassword=" + encodeURIComponent(plainPassword);
@@ -436,7 +450,18 @@ var app = new Vue({
       this.showSignUpForm = false;
       this.showCreateTechnicalForm = false;
       this.showSevenMinuteDrillForm = false;
-      this.showTableDisplay = false;
+      this.showTableDisplay = false; 
+    },
+
+    logout: function () {
+      deleteSessionOnServer().then((res) => {
+
+        this.showLoginForm = false;
+        this.showSignUpForm = false;
+        this.showCreateTechnicalForm = false;
+        this.showSevenMinuteDrillForm = false;
+        this.showTableDisplay = false; 
+      })
     },
     signUp: function () {
       this.showSignUpForm = true;
@@ -448,8 +473,14 @@ var app = new Vue({
   },
   created: function () {
     console.log("VUE LOADED.");
-    
-    this.showSevenMinuteDrills();
-    this.showTechnicalSkills();
+    checkIfLoggedInOnServer().then((response) => {
+      if (response.status == 200) {
+          this.loggedIn = true;
+          this.showSevenMinuteDrills();
+          this.showTechnicalSkills();
+      } else {
+          this.loggedIn = false;
+      }
+  });
   }
 });
