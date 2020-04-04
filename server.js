@@ -98,6 +98,10 @@ app.post('/players', function (req, res) {
 
 app.get('/sevenMinuteDrills', function (req, res) {
   console.log("user/////////////////////////////////////", req.user)
+  if (!req.user) {
+    res.sendStatus(401);
+    return
+  }
   res.set("Access-Control-Allow-Origin", "*")
   model.SevenMinuteDrill.find({}).then( (sevenMinuteDrills) => {
   res.json(sevenMinuteDrills);
