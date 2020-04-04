@@ -202,6 +202,10 @@ app.delete('/sevenMinuteDrills/:sevenMinuteDrillId', function (req, res) {
 
 
 app.get('/technicalSkills', function (req, res) {
+  if (!req.user) {
+    res.sendStatus(401);
+    return
+  }
   console.log("getting SEVEN")
   res.set("Access-Control-Allow-Origin", "*")
   model.TechnicalSkill.find({}).then( (technicalSkills) => {
@@ -211,6 +215,10 @@ app.get('/technicalSkills', function (req, res) {
 });
 
 app.post('/technicalSkills', function (req, res) {
+  if (!req.user) {
+    res.sendStatus(401);
+    return
+  }
   console.log("the body", req.body);
   res.set("Access-Control-Allow-Origin", "*")
 
