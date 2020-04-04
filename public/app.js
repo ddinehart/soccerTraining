@@ -433,8 +433,7 @@ var app = new Vue({
         if (res.status == 201) {
           console.log("success")
           this.loggedIn = true;
-          this.showSevenMinuteDrills();
-          this.showTechnicalSkills();
+          
           this.showLoginForm = false;
           this.showTableDisplay = true;
           this.showTechnicalSkills = true;
@@ -453,8 +452,7 @@ var app = new Vue({
           this.showTableDisplay = true;
           this.showTechnicalSkills = true;
           this.showSevenMinuteDrills = true;
-          this.showSevenMinuteDrills();
-          this.showTechnicalSkills();
+          
         } else {
           alert("Sign in failed, email may already exist")
         }
