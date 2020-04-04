@@ -438,11 +438,11 @@ var app = new Vue({
           this.showTableDisplay = true;
           this.showTechnicalSkills = true;
           this.showSevenMinuteDrills = true;
-          this.showSevenMinuteDrills();
-          this.showTechnicalSkills();
         } else {
           alert("Login attempt failed please try again")
         }
+        this.showSevenMinuteDrills();
+        this.showTechnicalSkills();
       })
     },
 
