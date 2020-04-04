@@ -437,11 +437,6 @@ var app = new Vue({
       this.showCreateTechnicalForm = false;
       this.showSevenMinuteDrillForm = false;
       this.showTableDisplay = false;
-      if (res.status == 201) {
-        this.loggedIn = true;
-      } else {
-        alert("Login failed please try agin")
-      }
     },
     signUp: function () {
       this.showSignUpForm = true;
