@@ -488,6 +488,8 @@ var app = new Vue({
       if (response.status == 200) {
           this.loggedIn = true;
           this.showTableDisplay = true;
+          this.showSevenMinuteDrills();
+          this.showTechnicalSkills();
       } else {
           this.loggedIn = false;
       }
