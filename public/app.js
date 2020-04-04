@@ -451,7 +451,7 @@ var app = new Vue({
           console.log("success")
           this.showSevenMinuteDrills();
           this.showTechnicalSkills();
-          this.loggedIn = true;
+          
           this.showTableDisplay = true;
           this.showTechnicalSkills = true;
           this.showSevenMinuteDrills = true;
