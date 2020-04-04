@@ -429,6 +429,7 @@ var app = new Vue({
           console.log("success")
           this.loggedIn = true
           this.showLoginForm = false
+          this.showTableDisplay = true
           this.showTechnicalSkills = true
           this.showSevenMinuteDrills = true
         } else {
@@ -442,6 +443,7 @@ var app = new Vue({
         if (res.status == 201) {
           console.log("success")
           this.loggedIn = true
+          this.showTableDisplay = true
           this.showTechnicalSkills = true
           this.showSevenMinuteDrills = true
         } else {
@@ -481,8 +483,7 @@ var app = new Vue({
     checkIfLoggedInOnServer().then((response) => {
       if (response.status == 200) {
           this.loggedIn = true;
-          this.showSevenMinuteDrills();
-          this.showTechnicalSkills();
+          this.showTableDisplay = true;
       } else {
           this.loggedIn = false;
       }
