@@ -427,6 +427,8 @@ var app = new Vue({
       loginUserOnServer(this.emailField, this.passwordField).then((res) => {
         if (res.status == 201) {
           console.log("success")
+          this.showSevenMinuteDrills();
+          this.showTechnicalSkills();
           this.loggedIn = true
           this.showLoginForm = false
           this.showTableDisplay = true
@@ -442,6 +444,8 @@ var app = new Vue({
       signUpUserOnServer(this.emailField, this.passwordField).then((res) => {
         if (res.status == 201) {
           console.log("success")
+          this.showSevenMinuteDrills();
+          this.showTechnicalSkills();
           this.loggedIn = true
           this.showTableDisplay = true
           this.showTechnicalSkills = true
