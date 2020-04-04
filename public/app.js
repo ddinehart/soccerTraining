@@ -9,6 +9,39 @@ var createSevenMinuteDrillOnServer = function (newSevenMinuteDrillTime) {
   return fetch("https://fast-citadel-67412.herokuapp.com/sevenMinuteDrills", {
     body: data,
     method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  });
+};
+
+var loginUserOnServer = function (email, plainPassword) {
+  var data = `email=${encodeURIComponent(email)}`;
+  data += "&plainPassword=" + encodeURIComponent(plainPassword);
+  console.log("email, plain pass", data)
+  
+  // return fetch("http://localhost:3001/session", {
+  return fetch("https://fast-citadel-67412.herokuapp.com/session", {
+    body: data,
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  });
+};
+
+var signUpUserOnServer = function (email, plainPassword) {
+  var data = `email=${encodeURIComponent(email)}`;
+  data += "&plainPassword=" + encodeURIComponent(plainPassword);
+  console.log("email, plainPassword", data)
+  
+  // return fetch("http://localhost:3001/users", {
+  return fetch("https://fast-citadel-67412.herokuapp.com/users", {
+    body: data,
+    method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
@@ -22,6 +55,7 @@ var updateSevenMinuteDrillOnServer = function (id, time) {
 
   return fetch("https://fast-citadel-67412.herokuapp.com/sevenMinuteDrills/" + id, {
     method: "PUT",
+    credentials: "include",
     body: data,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
@@ -35,7 +69,8 @@ var deleteSevenMinuteDrillOnServer = function (sevenMinuteDrillId) {
   console.log("data seven min drill", sevenMinuteDrillId)
 
   return fetch("https://fast-citadel-67412.herokuapp.com/sevenMinuteDrills/" + sevenMinuteDrillId, {
-    method: "DELETE"
+    method: "DELETE",
+    credentials: "include",
   });
 };
 
@@ -56,6 +91,7 @@ var createTechnicalSkillOnServer = function (newTechnicalSkillShooting, newTechn
   return fetch("https://fast-citadel-67412.herokuapp.com/technicalSkills", {
     body: data,
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
@@ -68,7 +104,8 @@ var deleteTechnicalSkillOnServer = function (technicalSkillId) {
   console.log("data seven min drill", technicalSkillId)
 
   return fetch("https://fast-citadel-67412.herokuapp.com/technicalSkills/" + technicalSkillId, {
-    method: "DELETE"
+    method: "DELETE",
+    credentials: "include",
   });
 };
 
@@ -84,6 +121,7 @@ var updateTechnicalSkillOnServer = function (id, shooting, passing, dribbling, t
 
   return fetch("https://fast-citadel-67412.herokuapp.com/technicalSkills/" + id, {
     method: "PUT",
+    credentials: "include",
     body: data,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
@@ -108,13 +146,18 @@ var app = new Vue({
     newTechnicalSkillAerial: "",
     newTechnicalSkillAttacking: "",
     editItemClickedId: "",
+    emailField: "",
+    passwordField: "",
+    loggedIn: false,
 
     
     showEditSevenMinuteDrillForm: false,
+    showLoginForm: false,
+    showSignUpForm: false,
     showEditTechnicalSkillForm: false,
     showSevenMinuteDrillForm: false,
     showCreateTechnicalForm: false,
-    showTableDisplay: true,
+    showTableDisplay: false,
 
     errors: []
   },
@@ -212,6 +255,7 @@ var app = new Vue({
         });
       });
     },
+
 
     validateTechnicalSkill: function () {
       this.errors = [];
@@ -364,10 +408,52 @@ var app = new Vue({
       // this.showCreatePhysicalForm = false;
       this.showTableDisplay = false;
       this.showSevenMinuteDrillForm = false;
+    },
+    checkForUserLogin: function () {
+      loginUserOnServer(this.emailField, this.passwordField).then((res) => {
+        if (res.status == 201) {
+          console.log("success")
+          this.loggedIn = true
+        } else {
+          alert("Login attempt failed please try again")
+        }
+      })
+    },
+
+    checkForUserSignUp: function () {
+      signUpUserOnServer(this.emailField, this.passwordField).then((res) => {
+        if (res.status == 201) {
+          console.log("success")
+          this.loggedIn = true
+        } else {
+          alert("Login attempt failed please try again")
+        }
+      })
+    },
+
+    login: function () {
+      this.showLoginForm = true;
+      this.showSignUpForm = false;
+      this.showCreateTechnicalForm = false;
+      this.showSevenMinuteDrillForm = false;
+      this.showTableDisplay = false;
+      if (res.status == 201) {
+        this.loggedIn = true;
+      } else {
+        alert("Login failed please try agin")
+      }
+    },
+    signUp: function () {
+      this.showSignUpForm = true;
+      this.showLoginForm = false;
+      this.showCreateTechnicalForm = false;
+      this.showSevenMinuteDrillForm = false;
+      this.showTableDisplay = false;
     }
   },
   created: function () {
     console.log("VUE LOADED.");
+    
     this.showSevenMinuteDrills();
     this.showTechnicalSkills();
   }

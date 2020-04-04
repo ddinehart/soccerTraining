@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 mongoose.connect('mongodb+srv://dylan:Rho26zIUaKc2rcOQ@ddinehart-kqodd.mongodb.net/Soccer?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -65,16 +66,36 @@ var TechnicalSkill = mongoose.model('TechnicalSkill', {
   },
 });
 
+var userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: [true, "Email must be provided"],
+    unique: true
+  },
+  encryptedPassword: {
+    type: String,
+    required: true,
+  }
+});
 
-// sevenMinuteDrill: {
-//   time: {
-//     type: String,
-//     required: true,
-//   },
-// }
+userSchema.methods.setEncryptedPassword = function (plainPassword, callbackFunction) {
+  bcrypt.hash(plainPassword, 12).then(hash => {
+    this.encryptedPassword = hash;
+    callbackFunction();
+  });
+};
+
+userSchema.methods.verifyPassword = function (plainPassword, callbackFunction) {
+  bcrypt.compare(plainPassword, this.encryptedPassword).then(result => {
+    callbackFunction(result);
+  });
+};
+
+var User = mongoose.model('User', userSchema);
 
 module.exports = {
     Player: Player,
     SevenMinuteDrill: SevenMinuteDrill,
-    TechnicalSkill: TechnicalSkill
+    TechnicalSkill: TechnicalSkill,
+    User: User
 };

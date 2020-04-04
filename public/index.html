@@ -8,8 +8,54 @@
     <div id="app">
       <div class="top">
         <h1>Soccer Training</h1>
+        <button class="btnAdd" v-on:click="login">Login</button>
+        <button class="btnAdd" v-on:click="signUp">Sign Up</button>
       </div>
       
+      <div v-if="showLoginForm">
+        <div class="form">
+          <label class="label"> Email:</label>
+          <input type="text" v-model="emailField"><br>
+          <label class="label"> Password:</label>
+          <input type="text" v-model="passwordField"><br>
+          <button class="btnAdd" v-on:click="checkForUserLogin">Submit</button>
+          <br>
+          <br>
+        </div>
+        <div id="errors" v-if="errors.length">
+          There were logging in:
+          <ul>
+            <li v-for="error in errors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div v-if="showSignUpForm">
+        <div class="form">
+          <h1>Sign Up</h1>
+          <label class="label"> Email:</label>
+          <input type="text" v-model="emailField"><br>
+          <label class="label"> Password:</label>
+          <input type="text" v-model="passwordField"><br>
+          <button class="btnAdd" v-on:click="checkForUserSignUp">Submit</button>
+          <br>
+          <br>
+        </div>
+        <div id="errors" v-if="errors.length">
+          There were logging in:
+          <ul>
+            <li v-for="error in errors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+
+
       <div v-if="showSevenMinuteDrillForm">
         <div class="form">
 
@@ -27,8 +73,8 @@
             </li>
           </ul>
         </div>
-        
       </div>
+
 
       <div v-if="showEditSevenMinuteDrillForm">
         <div class="form">
@@ -46,7 +92,6 @@
             </li>
           </ul>
         </div>
-        
       </div>
       <div v-if="showEditTechnicalSkillForm">
         <div class="form">

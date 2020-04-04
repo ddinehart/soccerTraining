@@ -1,18 +1,63 @@
-const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
-
+const express = require('express');
+const session = require('express-session')
+const passport = require('passport');
+const passportLocal = require('passport-local');
 
 const model = require('./model')
 const app = express();
 
 const port = process.env.PORT || 3001;
 
-app.use(cors())
-
-app.use(express.static("public"))
-
+//Middleware
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(cors());
+app.use(express.static('public'));
+app.use(session({ secret: 'lkjfnvlieogdcurbyrp', resave: false, saveUninitialized: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//passport configuration
+passport.use(new passportLocal.Strategy({
+  usernameField: 'email',
+  passwordField: 'plainPassword'
+}, function(email, plainPassword, done) {
+  model.User.findOne({email: email }).then(function (user) {
+    if (!user) {
+      return done(null, false);
+    } else {
+      user.verifyPassword(plainPassword, function (result) {
+        if (result) {
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
+      });
+    }
+  }).catch(function (err) {
+    done(err);
+  });
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(userId, done) {
+  model.User.findOne({_id: userId}).then(function(user) {
+    done(null, user);
+  }).catch(function(err) {
+    done(err)
+  });
+});
+
+app.post('/session', passport.authenticate('local'), function(req, res) {
+  // auth success, user logged in.
+  res.sendStatus(201);
+});
+
 
 app.get('/players', function (req, res) {
     res.set("Access-Control-Allow-Origin", "*")
@@ -20,7 +65,7 @@ app.get('/players', function (req, res) {
     res.json(players);
     });
     // query the mongoose model
-});
+}); 
 
 app.post('/players', function (req, res) {
     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", req.body.name, "!!!!!!!!!!!!!!")
@@ -52,7 +97,7 @@ app.post('/players', function (req, res) {
 });
 
 app.get('/sevenMinuteDrills', function (req, res) {
-  console.log("getting SEVEN")
+  console.log("user/////////////////////////////////////", req.user)
   res.set("Access-Control-Allow-Origin", "*")
   model.SevenMinuteDrill.find({}).then( (sevenMinuteDrills) => {
   res.json(sevenMinuteDrills);
@@ -61,6 +106,11 @@ app.get('/sevenMinuteDrills', function (req, res) {
 });
 
 app.post('/sevenMinuteDrills', function (req, res) {
+  if (!req.user) {
+    res.sendStatus(401);
+    return
+  }
+
   console.log("the body", req.body);
   res.set("Access-Control-Allow-Origin", "*")
 
@@ -68,8 +118,6 @@ app.post('/sevenMinuteDrills', function (req, res) {
   let sevenMinuteDrill = new model.SevenMinuteDrill({
     time: req.body.time,
   });
-
-
 
   // REST retrieve (member) action
 // app.get('/sevenMinuteDrills/:sevenMinuteDrillId', function (req, res) {
@@ -222,6 +270,41 @@ app.put('/technicalSkills/:technicalSkillId', function (req, res) {
     res.sendStatus(200)
   });
 });
+
+app.get('/sevenMinuteDrills', function (req, res) {
+  console.log("getting SEVEN")
+  res.set("Access-Control-Allow-Origin", "*")
+  model.SevenMinuteDrill.find({}).then( (sevenMinuteDrills) => {
+  res.json(sevenMinuteDrills);
+  });
+  // query the mongoose model
+});
+
+app.post('/users', function (req, res) {
+  console.log("made it to user post!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!____________________________________");
+  res.set("Access-Control-Allow-Origin", "*")
+  // create an instance of the mongoose model
+  let user = new model.User({
+    email: req.body.email
+  });
+
+  user.setEncryptedPassword(req.body.plainPassword, function() {
+    user.save().then(function() {
+      res.sendStatus(201);
+    }).catch(function(err) {
+      if (err.errors) {
+        var messages = {};
+        for (let e in err.errors) {
+          messages[e] = err.errors[e].message;
+        }
+        res.status(422).json(messages);
+      } else {
+        res.sendStatus(500);
+      } 
+    });
+  });
+});
+
 
 
 app.listen(port, function () {
