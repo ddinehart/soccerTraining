@@ -471,7 +471,7 @@ var app = new Vue({
 
     logout: function () {
       deleteSessionOnServer().then((res) => {
-
+        this.loggedIn = false
         this.showLoginForm = false;
         this.showSignUpForm = false;
         this.showCreateTechnicalForm = false;
