@@ -412,16 +412,21 @@ var app = new Vue({
       });
     },
     addSevenMinuteDrill: function () {
+      if (this.loggedIn = true) {
       this.showCreateTechnicalForm = false;
       // this.showCreatePhysicalForm = false;
       this.showSevenMinuteDrillForm = true;
       this.showTableDisplay = false;
+      }
     },
     addTechnicalSkill: function () {
-      this.showCreateTechnicalForm = true;
-      // this.showCreatePhysicalForm = false;
-      this.showTableDisplay = false;
-      this.showSevenMinuteDrillForm = false;
+      if (this.loggedIn = true) {
+
+        this.showCreateTechnicalForm = true;
+        // this.showCreatePhysicalForm = false;
+        this.showTableDisplay = false;
+        this.showSevenMinuteDrillForm = false;
+      }
     },
     checkForUserLogin: function () {
       loginUserOnServer(this.emailField, this.passwordField).then((res) => {
@@ -429,11 +434,11 @@ var app = new Vue({
           console.log("success")
           this.showSevenMinuteDrills();
           this.showTechnicalSkills();
-          this.loggedIn = true
-          this.showLoginForm = false
-          this.showTableDisplay = true
-          this.showTechnicalSkills = true
-          this.showSevenMinuteDrills = true
+          this.loggedIn = true;
+          this.showLoginForm = false;
+          this.showTableDisplay = true;
+          this.showTechnicalSkills = true;
+          this.showSevenMinuteDrills = true;
         } else {
           alert("Login attempt failed please try again")
         }
@@ -446,10 +451,10 @@ var app = new Vue({
           console.log("success")
           this.showSevenMinuteDrills();
           this.showTechnicalSkills();
-          this.loggedIn = true
-          this.showTableDisplay = true
-          this.showTechnicalSkills = true
-          this.showSevenMinuteDrills = true
+          this.loggedIn = true;
+          this.showTableDisplay = true;
+          this.showTechnicalSkills = true;
+          this.showSevenMinuteDrills = true;
         } else {
           alert("Sign in failed, email may already exist")
         }
