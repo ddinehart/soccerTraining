@@ -58,6 +58,12 @@ app.post('/session', passport.authenticate('local'), function(req, res) {
   res.sendStatus(201);
 });
 
+app.delete('/session', function (req, res) {
+  //Authentication succeeded
+  req.logOut()
+  res.sendStatus(200)
+})
+
 app.get('/session', function (req, res) {
   if (req.user) {
     res.json(req.user)
